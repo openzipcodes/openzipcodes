@@ -4,6 +4,7 @@
 
 <script lang="ts">
   let zipcodeInput = "";
+  let selected = "";
 
   let result = {};
   const lookup = async (zipcode) => {
@@ -20,9 +21,28 @@
   <title>Home</title>
 </svelte:head>
 
-<h1>Free and Open Zipcode lookup in X lines of code</h1>
+<h1>Free and Open Source</h1>
+<h1>Zipcode lookup</h1>
+<h1>for Colombia</h1>
+<h1>from python</h1>
+<h1>in X lines of code</h1>
 
-<input bind:value={zipcodeInput} />
+<input class="bg-red-300" bind:value={zipcodeInput} />
 <button on:click={() => lookup(zipcodeInput)}>lookup</button>
 
-{result?.d_asenta}
+{#if result.zipcodes}
+  <input bind:value={selected} list="ice-cream-flavors" />
+  <datalist id="ice-cream-flavors">
+    {#each result.zipcodes as zipcode}
+      <option value={zipcode.d_asenta}>{zipcode.d_asenta}</option>
+    {/each}
+  </datalist>
+{/if}
+
+Features:
+<ul>
+  <li>Free thanks to hosting by Cloudflare</li>
+  <li>Open Source and easy to Selfhost</li>
+  <li>Fast because it's just static files on a CDN</li>
+  <li>Up to date because builds are automated</li>
+</ul>
