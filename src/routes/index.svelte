@@ -30,8 +30,6 @@
 <input class="bg-red-300" bind:value={zipcodeInput} />
 <button on:click={() => lookup(zipcodeInput)}>lookup</button>
 
-{@debug result}
-
 {#if result.settlements}
   <input bind:value={selected} list="ice-cream-flavors" />
   <datalist id="ice-cream-flavors">
