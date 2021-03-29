@@ -2,7 +2,7 @@
   export const prerender = true;
 
   export async function load({ page, fetch }) {
-    const res = await fetch(`/by-zipcode/${page.params.slug}.json`);
+    const res = await fetch(`/by-zipcode/${page.params.zipcode}.json`);
     return {
       props: {
         post: await res.json(),
@@ -16,10 +16,10 @@
 </script>
 
 <svelte:head>
-  <title>{post.d_asenta}</title>
+  <title>{post.settlement}</title>
 </svelte:head>
 
-<h1>{post.d_asenta}</h1>
+<h1>{post.settlement}</h1>
 <div class="post">
-  {post.d_estado}
+  {post.settlement}
 </div>

@@ -5,25 +5,23 @@
     const res = await fetch("/by-zipcode.json");
     return {
       props: {
-        posts: await res.json(),
+        zipcodes: await res.json(),
       },
     };
   }
 </script>
 
 <script>
-  export let posts;
+  export let zipcodes;
 </script>
 
 <svelte:head>
   <title>Blog</title>
 </svelte:head>
 
-<h1>blog</h1>
-
 <ul>
-  {#each posts as post}
-    <li><a href="/by-zipcode/{post.slug}">{post.d_asenta}</a></li>
+  {#each zipcodes as zipcode}
+    <li><a href="/by-zipcode/{zipcode.zipcode}">{zipcode.zipcode}</a></li>
   {/each}
 </ul>
 

@@ -2,9 +2,9 @@ import { init, cities } from "../_cities";
 
 export const get = async ({ params }) => {
   await init();
-  if (params.slug in cities) {
+  if (params.zipcode in cities) {
     return {
-      body: cities[params.slug],
+      body: cities[params.zipcode],
     };
   }
 

@@ -30,11 +30,13 @@
 <input class="bg-red-300" bind:value={zipcodeInput} />
 <button on:click={() => lookup(zipcodeInput)}>lookup</button>
 
-{#if result.zipcodes}
+{@debug result}
+
+{#if result.settlements}
   <input bind:value={selected} list="ice-cream-flavors" />
   <datalist id="ice-cream-flavors">
-    {#each result.zipcodes as zipcode}
-      <option value={zipcode.d_asenta}>{zipcode.d_asenta}</option>
+    {#each result.settlements as settlements}
+      <option value={settlements.settlement}>{settlements.settlement}</option>
     {/each}
   </datalist>
 {/if}

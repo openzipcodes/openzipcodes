@@ -14,7 +14,17 @@ const init = async () => {
   var end = new Promise(function (resolve, reject) {
     let rows = {};
     stream.on("data", (row) => {
-      rows[row.d_codigo] = { ...row, slug: row.d_codigo, id: row.d_codigo };
+      if (rows[row.d_codigo]) {
+        rows[row.d_codigo] = {
+          zipcode: row.d_codigo,
+          settlements: [...rows[row.d_codigo].settlements, mapFields(row)],
+        };
+      } else {
+        rows[row.d_codigo] = {
+          zipcode: row.d_codigo,
+          settlements: [mapFields(row)],
+        };
+      }
     });
     stream.on("end", () => {
       resolve(rows);
@@ -25,5 +35,10 @@ const init = async () => {
 
   cities = rows;
 };
+
+const mapFields = (row) => ({
+  zipcode: row.d_codigo,
+  settlement: row.d_asenta,
+});
 
 export { cities, init };
