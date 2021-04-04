@@ -3,12 +3,64 @@
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" href="/favicon.ico" />
-		<script
-			async
-			defer
-			data-domain="openzipcodes.vercel.app"
-			src="https://plausible.host.georg-hartmann.com/js/plausible.js"
-		></script>
+		<script>
+			!(function (r, i) {
+				'use strict';
+				var e,
+					o = r.location,
+					s = r.document,
+					t = s.querySelector('[src*="' + i + '"]'),
+					l = 'openzipcodes.vercel.app',
+					p = navigator && navigator.doNotTrack == '1';
+				function c(e) {
+					console.warn('Ignoring Event: ' + e);
+				}
+				function a(e, t) {
+					if (!(r.phantom || r._phantom || r.__nightmare || r.navigator.webdriver)) {
+						if (p) return c('doNotTrack flag');
+						var a = {};
+						(a.n = e),
+							(a.u = o.href),
+							(a.d = l),
+							(a.r = s.referrer || null),
+							(a.w = r.innerWidth),
+							t && t.meta && (a.m = JSON.stringify(t.meta)),
+							t && t.props && (a.p = JSON.stringify(t.props));
+						var n = new XMLHttpRequest();
+						n.open('POST', i + '/api/event', !0),
+							n.setRequestHeader('Content-Type', 'text/plain'),
+							n.send(JSON.stringify(a)),
+							(n.onreadystatechange = function () {
+								4 == n.readyState && t && t.callback && t.callback();
+							});
+					}
+				}
+				function n() {
+					e !== o.pathname && ((e = o.pathname), a('pageview'));
+				}
+				try {
+					var u,
+						h = r.history;
+					h.pushState &&
+						((u = h.pushState),
+						(h.pushState = function () {
+							u.apply(this, arguments), n();
+						}),
+						r.addEventListener('popstate', n));
+					var g = (r.plausible && r.plausible.q) || [];
+					r.plausible = a;
+					for (var f = 0; f < g.length; f++) a.apply(this, g[f]);
+					'prerender' === s.visibilityState
+						? s.addEventListener('visibilitychange', function () {
+								e || 'visible' !== s.visibilityState || n();
+						  })
+						: n();
+				} catch (e) {
+					console.error(e),
+						(new Image().src = i + '/api/error?message=' + encodeURIComponent(e.message));
+				}
+			})(window, 'https://plausible.host.georg-hartmann.com');
+		</script>
 		<meta name="viewport" content="width=device-width, initial-scale=1" />
 		%svelte.head%
 	</head>

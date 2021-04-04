@@ -26,13 +26,15 @@
 	const lookup = async () => {
 		searching = { type: 'searching' };
 		const start = Date.now();
+
 		try {
 			const res = await fetch(`/by-zipcode/${zipcodeInput}.json`);
 			result = await res.json();
 			searching = { type: 'found', sec: Date.now() - start };
-			console.log(res.headers);
+			plausible('LookedUpZipcode', { props: { zip: zipcodeInput, success: 'true' } });
 		} catch (error) {
 			searching = { type: 'notFound' };
+			plausible('LookedUpZipcode', { props: { zip: zipcodeInput, success: 'false' } });
 		}
 	};
 </script>
