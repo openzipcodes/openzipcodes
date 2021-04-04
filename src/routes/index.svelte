@@ -6,10 +6,9 @@
 	import { browser } from '$app/env';
 
 	const supportedCountries = {
-		COL: { flag: '🇨🇴', name: 'Colombia' },
-		GER: { flag: '🇩🇪', name: 'Germany' },
-		USA: { flag: '🇺🇸', name: 'United States of America' }
+		COL: { flag: '🇨🇴', name: 'Colombia' }
 	};
+
 	let selectedCountry = 'COL';
 
 	let zipcodeInput = '';
@@ -17,7 +16,11 @@
 
 	let result = {};
 
-	type Searching = { type: 'initial' } | { type: 'searching' } | { type: 'found'; sec: number };
+	type Searching =
+		| { type: 'initial' }
+		| { type: 'searching' }
+		| { type: 'notFound' }
+		| { type: 'found'; sec: number };
 
 	let searching: Searching = { type: 'initial' };
 	const lookup = async () => {
@@ -26,8 +29,11 @@
 		try {
 			const res = await fetch(`/by-zipcode/${zipcodeInput}.json`);
 			result = await res.json();
-		} catch (error) {}
-		searching = { type: 'found', sec: Date.now() - start };
+			searching = { type: 'found', sec: Date.now() - start };
+			console.log(res.headers);
+		} catch (error) {
+			searching = { type: 'notFound' };
+		}
 	};
 </script>
 
@@ -45,32 +51,43 @@
 	</h1>
 </section>
 
-<section class="py-8 px-8 text-4xl">
-	<select bind:value={selectedCountry} list="supported-countries" class="text-black px-1 py-1 w-16"
-		>{#each Object.keys(supportedCountries) as key}
-			<option value={key}>{supportedCountries[key].flag} {supportedCountries[key].name}</option>
-		{/each}</select
-	>
+<div class="flex">
+	<section class="py-8 px-8 text-4xl">
+		<div>
+			<select
+				bind:value={selectedCountry}
+				list="supported-countries"
+				class="text-black px-1 py-1 w-16"
+				>{#each Object.keys(supportedCountries) as key}
+					<option value={key}>{supportedCountries[key].flag} {supportedCountries[key].name}</option>
+				{/each}</select
+			>
+			<div>
+				<input class="text-black px-4 py-2" bind:value={zipcodeInput} on:input={lookup} />
+				<div class="text-sm h-6">
+					{searching.type == 'found' ? `Found in ${searching.sec} miliseconds` : ``}
+				</div>
+			</div>
+		</div>
+		<input
+			class="text-black px-4 py-2"
+			bind:value={selectedSettlement}
+			list="settlements"
+			placeholder={!result?.settlements ? 'Enter a zipcode first' : 'Select a settlement'}
+		/>
 
-	<input class="text-black px-4 py-2" bind:value={zipcodeInput} on:input={lookup} />
-	{#if searching.type == 'found'}
-		Found in {searching.sec} miliseconds
-	{/if}
-
-	<input
-		class="text-black px-4 py-2"
-		bind:value={selectedSettlement}
-		list="settlements"
-		placeholder={!result?.settlements ? 'Enter a zipcode first' : 'Select a settlement'}
-	/>
-	<datalist id="settlements">
-		{#if result.settlements}
-			{#each result.settlements as settlements}
-				<option value={settlements.settlement}>{settlements.settlement}</option>
-			{/each}
-		{/if}
-	</datalist>
-</section>
+		<datalist id="settlements">
+			{#if result.settlements}
+				{#each result.settlements as settlements}
+					<option value={settlements.settlement}>{settlements.settlement}</option>
+				{/each}
+			{/if}
+		</datalist>
+	</section>
+	<section>
+		<code class="lang-bash">curl localhost:3000/by-zipcode/70110.json</code>
+	</section>
+</div>
 
 <section class="py-8">
 	Features:
