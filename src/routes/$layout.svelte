@@ -1,25 +1,15 @@
 <script context="module">
-	export const prerender = true;
+  export const prerender = true;
 </script>
 
 <script>
-	import Nav from '$lib/Nav.svelte';
-	export let segment;
+  import Nav from "$lib/Nav.svelte";
+  export let segment;
 </script>
 
-<Nav {segment}/>
-
-<main>
-	<slot></slot>
+<main
+  class="container mx-auto px-4 font-sans"
+  style="background-color: #272727; color: #F5F5F5"
+>
+  <slot />
 </main>
-
-<style>
-	:root {
-		font-family: sans-serif;
-	}
-
-	main {
-		max-width: 40em;
-		margin: 0 auto;
-	}
-</style>

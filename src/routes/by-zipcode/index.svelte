@@ -21,7 +21,7 @@
 
 <ul>
   {#each zipcodes as zipcode}
-    <li><a href="/by-zipcode/{zipcode.zipcode}">{zipcode.zipcode}</a></li>
+    <li><a href="/by-zipcode/{zipcode.zipcode}.json">{zipcode.zipcode}</a></li>
   {/each}
 </ul>
 
