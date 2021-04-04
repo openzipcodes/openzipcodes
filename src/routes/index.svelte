@@ -38,7 +38,7 @@
 </script>
 
 <svelte:head>
-	<title>OpenZipcodes</title>
+	<title>Open Zipcodes</title>
 </svelte:head>
 
 <section class="py-8 px-8 font-extrabold text-4xl leading-13">
